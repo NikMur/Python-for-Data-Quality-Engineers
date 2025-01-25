@@ -1,0 +1,32 @@
+#To use random functions, first we need to import random library
+import random 
+
+"""
+Generate a list of 100 random integers between 1 and 100 and then create variables 
+for second task 
+"""
+
+random_numbers = [random.randint(1, 1000) for _ in range(100)] 
+odd_sum, even_sum = 0, 0
+odd_count, even_count = 0, 0
+
+#A sorting algorythm for list from min to max using for loop
+for i in range(0, len(random_numbers)):
+    for j in range(i+1, len(random_numbers)):
+        if random_numbers[i] >= random_numbers[j]:
+            random_numbers[i], random_numbers[j] = random_numbers[j], random_numbers[i]
+
+#Calculate average for odd and even numbers of list using for loop
+for i in range(0, len(random_numbers)):
+    if random_numbers[i]%2==0:
+        even_sum+=random_numbers[i];
+        odd_count+=1;
+    else:
+        odd_sum+=random_numbers[i];
+        even_count+=1;
+
+#In the end, we print all results in console (a list and both averages)
+print("List:")
+print(random_numbers) 
+print("average for even numbers: ", even_sum/even_count)
+print("average for odd numbers: ", odd_sum/odd_count)
