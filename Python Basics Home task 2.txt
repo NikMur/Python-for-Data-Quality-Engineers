@@ -1,0 +1,68 @@
+import random
+import string
+
+#1. Generate a random number of dictionaries (between 2 and 10)
+list_of_dicts = []  
+num_dicts = random.randint(2, 10)
+
+"""
+Initialize all dictionaries using for loop and with such requirements:
+1. dict's random numbers of keys should be letter,
+2. dict's values should be a number (0-100)
+"""
+
+for i in range(num_dicts):
+    num_keys = random.randint(1, 5)
+    random_dict = {} 
+    for c in range(num_keys):
+        key = random.choice(string.ascii_lowercase)  # Select a random letter as key (it is selected from a string with all letters)
+        value = random.randint(0, 100)  # Generate a random number between 0 and 100
+        random_dict[key] = value  # Add "c" pair to the dictionary
+    
+    list_of_dicts.append(random_dict)  # Add resulted dictionary to the list and repeat it i times
+
+
+
+#2. Combine the list of dictionaries to create one final dictionary
+common_dict = {}  
+# Dictionary to track which dictionary has the max value for each key
+key_source = {}
+
+"""
+Here`s loop of task:
+We search through dictionaries
+If key is seen for the first time, we store the dict number where the key is
+If key already exists, check if the new value is greater (and update max value and dict number if needed)
+
+PS: also in this case I decided to add enumerate() to keep track of the index of each element
+"""
+
+for dict_index, d in enumerate(list_of_dicts, start=1):
+    for key, value in d.items():
+        if key not in common_dict:  
+            common_dict[key] = value
+            key_source[key] = dict_index 
+        else:
+            if value > common_dict[key]:
+                common_dict[key] = value  
+                key_source[key] = dict_index 
+                
+#Rename keys based on the max value previous dict number 
+final_dict = {}
+
+"""
+If the key exists in that dictionary with the max value, rename it
+If no renaming is needed, keep the key as is
+"""
+
+for key, value in common_dict.items():
+    dict_number = key_source[key]
+    if list_of_dicts[dict_number - 1].get(key) == value:
+        final_dict[f"{key}_{dict_number}"] = value
+    else:
+        final_dict[key] = value
+
+
+# Print the results
+print("Generated List of Dictionaries (first task):", list_of_dicts)
+print("Final Resulted Dictionary:", final_dict)
